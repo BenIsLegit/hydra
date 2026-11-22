@@ -8,6 +8,7 @@ import * as Clipboard from "expo-clipboard";
 import List from "../../components/UI/List";
 import { ThemeContext } from "../../contexts/SettingsContexts/ThemeContext";
 import {
+  BUILT_IN_HYDRA_SERVER_URL,
   CUSTOM_HYDRA_SERVER_URL_KEY,
   DEFAULT_HYDRA_SERVER_URL,
   USE_CUSTOM_HYDRA_SERVER_KEY,
@@ -33,10 +34,13 @@ export default function Advanced() {
   const [storedUseCustomHydraServer, setUseCustomHydraServer] = useMMKVBoolean(
     USE_CUSTOM_HYDRA_SERVER_KEY,
   );
-  const useCustomHydraServer = storedUseCustomHydraServer ?? false;
+  const useCustomHydraServer =
+    storedUseCustomHydraServer ?? BUILT_IN_HYDRA_SERVER_URL !== undefined;
 
   const [customServerUrl, setCustomServerUrl] = useState(
-    KeyStore.getString(CUSTOM_HYDRA_SERVER_URL_KEY) ?? DEFAULT_HYDRA_SERVER_URL,
+    KeyStore.getString(CUSTOM_HYDRA_SERVER_URL_KEY) ??
+      BUILT_IN_HYDRA_SERVER_URL ??
+      DEFAULT_HYDRA_SERVER_URL,
   );
   const [isCustomServerValid, setIsCustomServerValid] = useState<
     boolean | null
