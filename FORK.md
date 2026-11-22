@@ -49,14 +49,20 @@ Branch PRs from `upstream/master`, never from `personal`, so no Apollo changes l
    EXPO_PUBLIC_APOLLO_SERVER_URL=https://reddit.cathedral.gg/<ACCESS_TOKEN>
    ```
 
-2. Build:
+2. Install the SDK's CMake 3.31.6 once (the default 3.22.1 ships a ninja that hits the Windows 260-character path limit on react-native-reanimated):
 
    ```bash
-   npx expo prebuild -p android --clean
-   cd android
-   SENTRY_DISABLE_AUTO_UPLOAD=true ./gradlew assembleRelease
+   "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "cmake;3.31.6"
    ```
 
-   The APK is `android/app/build/outputs/apk/release/app-release.apk`. It's signed with the debug keystore, which is fine for sideloading. Keep the same keystore across builds or Android refuses to install updates over the existing app.
+3. Build from Git Bash:
+
+   ```bash
+   scripts/build-apollo-apk.sh --clean
+   ```
+
+   It writes `android/app/build/outputs/apk/release/apollo-<version>-arm64-v8a.apk`. Drop `--clean` to reuse the existing `android/` folder, which is much faster.
+
+The APK is signed with the React Native template's debug key. It's the same on every machine and every prebuild, so new builds install over old ones, but anyone could sign an APK with it. Don't distribute it.
 
 The server is packaged for Cloudron at [git.cathedral.gg/Ben/hydra-server-cloudron-app](https://git.cathedral.gg/Ben/hydra-server-cloudron-app).
