@@ -1,3 +1,4 @@
+import { withApollo } from "./apollo.config";
 import { APP_ICON_PLUGIN_ICONS } from "./constants/appIcons";
 import packageJson from "./package.json";
 
@@ -11,7 +12,7 @@ const REDDIT_DEEP_LINK_HOSTS = [
   "new.reddit.com",
 ];
 
-module.exports = {
+module.exports = withApollo({
   expo: {
     name: "Hydra",
     slug: "hydra",
@@ -131,4 +132,4 @@ module.exports = {
       fallbackToCacheTimeout: 5000,
     },
   },
-};
+});

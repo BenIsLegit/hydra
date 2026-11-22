@@ -50,10 +50,13 @@ LogBox.ignoreLogs([
 const reportingAllowed =
   KeyStore.getBoolean(ERROR_REPORTING_STORAGE_KEY) !== false;
 
+// Apollo: never send a personal build's crashes to upstream's Sentry project.
+const IS_APOLLO_BUILD = true;
+
 Sentry.init({
   dsn: "https://0a53bc725058aa44bf7aa771f5bcda05@o4508377723174912.ingest.us.sentry.io/4508377726582784",
   debug: false,
-  enabled: !__DEV__ && reportingAllowed,
+  enabled: !IS_APOLLO_BUILD && !__DEV__ && reportingAllowed,
   tracesSampleRate: 0.1,
   profilesSampleRate: 0.1,
   integrations: [sentryNavigationIntegration],
